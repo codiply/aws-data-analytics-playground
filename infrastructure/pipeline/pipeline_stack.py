@@ -24,6 +24,7 @@ class CdkPipelineStack(cdk.Stack):
                 oauth_token=cdk.SecretValue.secrets_manager(secret_id='/github/oauth-token'),
                 owner='codiply',
                 repo='aws-data-analytics-playground',
+                branch='main',
                 trigger=cpactions.GitHubTrigger.POLL),
             synth_action=pipelines.SimpleSynthAction(
                 source_artifact=source_artifact,
