@@ -23,9 +23,10 @@ class CdkPipelineStack(cdk.Stack):
             'pipeline',
             pipeline_name='aws-data-analytics',
             cross_account_keys=True,
-            synth=pipelines.ShellStep('Synth',
+            self_mutation=True,
+            synth=pipelines.ShellStep('Synthesize',
                                       input=source,
-                                      primary_output_directory='infrastructure',
+                                      primary_output_directory='infrastructure/cdk.out',
                                       commands=[
                                           "cd infrastructure",
                                           "npm install -g aws-cdk",
@@ -33,8 +34,8 @@ class CdkPipelineStack(cdk.Stack):
                                           "cdk synth"
                                       ]))
 
-        pipeline.add_stage(MainStage(self, 'pre-stage',
+        pipeline.add_stage(MainStage(self, 'Preproduction',
                                      env=cdk.Environment(account='847334008802', region='eu-west-1')))
 
-        pipeline.add_stage(MainStage(self, 'pro-stage',
+        pipeline.add_stage(MainStage(self, 'Production',
                                      env=cdk.Environment(account='814312087360', region='eu-west-1')))
