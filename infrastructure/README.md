@@ -79,4 +79,4 @@ To undo any of the above steps, delete the CloudFormation template named `CDKToo
 ### GitHub access
 
 - Generate an OAuth token following [these steps](https://docs.aws.amazon.com/codepipeline/latest/userguide/appendix-github-oauth.html#action-reference-GitHub-auth)
-- Store it in the pipeline account in SSM Parameter Store under key `/github/oauth-token`
+- Store it in the pipeline account in Secrets Manager under key `/github/oauth-token`

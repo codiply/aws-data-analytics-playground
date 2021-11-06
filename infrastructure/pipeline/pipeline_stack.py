@@ -2,7 +2,6 @@ from aws_cdk import core as cdk
 from aws_cdk import aws_codepipeline as codepipeline
 from aws_cdk import aws_codepipeline_actions as cpactions
 from aws_cdk import pipelines
-from aws_cdk import aws_ssm as ssm
 
 from .stages.main_stage import MainStage
 
@@ -22,9 +21,7 @@ class CdkPipelineStack(cdk.Stack):
             source_action=cpactions.GitHubSourceAction(
                 action_name='GitHub',
                 output=source_artifact,
-                oauth_token=cdk.SecretValue.ssm_secure(
-                    parameter_name='/github/oauth-token',
-                    version='1'),
+                oauth_token=cdk.SecretValue.secrets_manager(secret_id='/github/oauth-token'),
                 owner='codiply',
                 repo='aws-data-analytics-playground',
                 trigger=cpactions.GitHubTrigger.POLL),
