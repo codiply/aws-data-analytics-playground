@@ -1,4 +1,3 @@
-
 # Welcome to your CDK Python project!
 
 This is a blank project for Python development with CDK.
@@ -56,3 +55,28 @@ command.
  * `cdk docs`        open CDK documentation
 
 Enjoy!
+
+## Setup
+
+### Bootstrapping the AWS accounts
+
+First you need to bootstrap the AWS Account and region where the pipeline will be deployed to
+
+```
+export CDK_NEW_BOOTSTRAP=1
+cdk bootstrap aws://<pipeline account id>/<region> --profile <pipeline account id>
+```
+
+Then bootstrap any other account that you want your pipeline to deploy to
+
+```
+export CDK_NEW_BOOTSTRAP=1
+cdk bootstrap aws://<target account id>/<region> --cloudformation-execution-policies 'arn:aws:iam::aws:policy/AdministratorAccess' --trust <pipeline account id> --profile <aws profile for target account id>
+```
+
+To undo any of the above steps, delete the CloudFormation template named `CDKToolkit` in the corresponding account and region.
+
+### GitHub access
+
+- Generate an OAuth token following [these steps](https://docs.aws.amazon.com/codepipeline/latest/userguide/appendix-github-oauth.html#action-reference-GitHub-auth)
+- Store it in the pipeline account in SSM Parameter Store under key `/github/oauth-token`
