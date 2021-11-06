@@ -13,32 +13,28 @@ class CdkPipelineStack(cdk.Stack):
         source_artifact = codepipeline.Artifact()
         cloud_assembly_artifact = codepipeline.Artifact()
 
-        pipeline = pipelines.CdkPipeline(
+        source = pipelines.CodePipelineSource.git_hub(
+            repo_string='codiply/aws-data-analytics-playground',
+            branch='main',
+            authentication=cdk.SecretValue.secrets_manager(secret_id='/github/oauth-token'))
+
+        pipeline = pipelines.CodePipeline(
             self,
             'pipeline',
             pipeline_name='aws-data-analytics',
-            cloud_assembly_artifact=cloud_assembly_artifact,
-            source_action=cpactions.GitHubSourceAction(
-                action_name='GitHub',
-                output=source_artifact,
-                oauth_token=cdk.SecretValue.secrets_manager(secret_id='/github/oauth-token'),
-                owner='codiply',
-                repo='aws-data-analytics-playground',
-                branch='main',
-                trigger=cpactions.GitHubTrigger.POLL),
-            synth_action=pipelines.SimpleSynthAction(
-                source_artifact=source_artifact,
-                cloud_assembly_artifact=cloud_assembly_artifact,
-                install_command='npm install -g aws-cdk && pip install -r requirements.txt',
-                build_command='pytest unittests',
-                synth_command='cdk synth'))
+            cross_account_keys=True,
+            synth=pipelines.ShellStep('Synth',
+                                      input=source,
+                                      primary_output_directory='infrastructure',
+                                      commands=[
+                                          "cd infrastructure",
+                                          "npm install -g aws-cdk",
+                                          "python -m pip install -r requirements.txt",
+                                          "cdk synth"
+                                      ]))
 
-        pipeline.add_application_stage(MainStage(self, 'pre-stage', env={
-            'account': '847334008802',
-            'region': 'eu-west-1'
-        }))
+        pipeline.add_stage(MainStage(self, 'pre-stage',
+                                     env=cdk.Environment(account='847334008802', region='eu-west-1')))
 
-        pipeline.add_application_stage(MainStage(self, 'pro-stage', env={
-            'account': '814312087360',
-            'region': 'eu-west-1'
-        }))
+        pipeline.add_stage(MainStage(self, 'pro-stage',
+                                     env=cdk.Environment(account='814312087360', region='eu-west-1')))

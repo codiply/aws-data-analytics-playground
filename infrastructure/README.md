@@ -67,7 +67,7 @@ export CDK_NEW_BOOTSTRAP=1
 cdk bootstrap aws://<pipeline account id>/<region> --profile <pipeline account id>
 ```
 
-Then bootstrap any other account that you want your pipeline to deploy to
+Then bootstrap all accounts that you want your pipeline to deploy to with
 
 ```
 export CDK_NEW_BOOTSTRAP=1
