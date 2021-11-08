@@ -23,7 +23,7 @@ Environments:
     NeedsManualApproval: false
     ConfigOverrides: ~
   Pro:
-    Enabled: true
+    Enabled: false
     Name: Production
     ShortName: Pro
     AccountId: '814312087360'
