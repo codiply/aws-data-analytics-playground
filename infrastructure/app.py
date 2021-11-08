@@ -2,18 +2,19 @@
 import os
 
 from aws_cdk import core as cdk
+from benedict import benedict
 
-# For consistency with TypeScript code, `cdk` is the preferred import name for
-# the CDK's core module.  The following line also imports it as `core` for use
-# with examples from the CDK Developer's Guide, which are in the process of
-# being updated to use `cdk`.  You may delete this import if you don't need it.
-from aws_cdk import core
-
+from config.pipeline import PipelineConfig
 from pipeline.pipeline_stack import CdkPipelineStack
 
+config_directory: str = os.path.join(os.path.dirname(os.path.realpath(__file__)), "config")
+pipeline_config: PipelineConfig = PipelineConfig(config_directory=config_directory, pipeline_name=None)
+ci_cd_config: benedict = pipeline_config.for_ci_cd_environment()
 
-app = core.App()
-CdkPipelineStack(app, "cdk-pipeline-stack",
-                 env=core.Environment(account='952284683965', region='eu-west-1'))
+app = cdk.App()
+CdkPipelineStack(app,
+                 f"{ci_cd_config['Project']}-ci-cd-pipeline",
+                 pipeline_config,
+                 env=cdk.Environment(account=ci_cd_config["AccountId"], region=ci_cd_config["Region"]))
 
 app.synth()

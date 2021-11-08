@@ -21,6 +21,7 @@ setuptools.setup(
     install_requires=[
         "aws-cdk.core==1.130.0",
         "aws-cdk.pipelines==1.130.0",
+        "python-benedict==0.24.3"
     ],
 
     python_requires=">=3.6",

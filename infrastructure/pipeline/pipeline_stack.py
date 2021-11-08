@@ -3,11 +3,13 @@ from aws_cdk import aws_codepipeline as codepipeline
 from aws_cdk import aws_codepipeline_actions as cpactions
 from aws_cdk import pipelines
 
+from .config.environment import EnvironmentConfig
+from .config.pipeline import PipelineConfig
 from .stages.main_stage import MainStage
 
 
 class CdkPipelineStack(cdk.Stack):
-    def __init__(self, scope: cdk.Construct, id: str, **kwargs) -> None:
+    def __init__(self, scope: cdk.Construct, id: str, config: PipelineConfig, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
         source_artifact = codepipeline.Artifact()
@@ -34,8 +36,11 @@ class CdkPipelineStack(cdk.Stack):
                                           "cdk synth"
                                       ]))
 
-        pipeline.add_stage(MainStage(self, 'Preproduction',
-                                     env=cdk.Environment(account='847334008802', region='eu-west-1')))
-
-        pipeline.add_stage(MainStage(self, 'Production',
-                                     env=cdk.Environment(account='814312087360', region='eu-west-1')))
+        environment_config: EnvironmentConfig
+        for environment_config in config.for_all_environments():
+            if environment_config.environment_enabled:
+                pipeline.add_stage(MainStage(self,
+                                             environment_config.environment_name,
+                                             environment_config,
+                                             env=cdk.Environment(account=environment_config.account_id,
+                                                                 region=environment_config.region)))
