@@ -71,7 +71,7 @@ Then bootstrap all accounts that you want your pipeline to deploy to with
 
 ```
 export CDK_NEW_BOOTSTRAP=1
-cdk bootstrap aws://<target account id>/<region> --cloudformation-execution-policies 'arn:aws:iam::aws:policy/AdministratorAccess' --trust <pipeline account id> --profile <aws profile for target account id>
+cdk bootstrap aws://<target account id>/<region> --cloudformation-execution-policies 'arn:aws:iam::aws:policy/AdministratorAccess' --trust <pipeline account id> --trust-for-lookup <pipeline account id> --profile <aws profile for target account id>
 ```
 
 To undo any of the above steps, delete the CloudFormation template named `CDKToolkit` in the corresponding account and region.
