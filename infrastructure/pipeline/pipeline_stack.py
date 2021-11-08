@@ -35,7 +35,7 @@ class CdkPipelineStack(cdk.Stack):
                                           "cd infrastructure",
                                           "npm install -g aws-cdk",
                                           "python -m pip install -r requirements.txt",
-                                          "cdk synth"
+                                          f"cdk synth -c pipeline_name={config.pipeline_name}"
                                       ]))
 
         environment_config: EnvironmentConfig
