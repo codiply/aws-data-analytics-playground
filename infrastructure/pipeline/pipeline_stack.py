@@ -53,8 +53,14 @@ class CdkPipelineStack(cdk.Stack):
         environment_config: EnvironmentConfig
         for environment_config in config.for_all_environments():
             if environment_config.environment_enabled:
+                pre_steps = None
+                if environment_config.needs_manual_approval:
+                    pre_steps = [
+                        pipelines.ManualApprovalStep(f"PromoteTo{environment_config.environment_short_name}")
+                    ]
                 pipeline.add_stage(MainStage(self,
                                              environment_config.environment_name,
                                              environment_config,
                                              env=cdk.Environment(account=environment_config.account_id,
-                                                                 region=environment_config.region)))
+                                                                 region=environment_config.region)),
+                                   pre=pre_steps)

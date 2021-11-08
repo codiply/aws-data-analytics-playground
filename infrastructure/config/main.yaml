@@ -12,6 +12,7 @@ Environments:
     ShortName: Dev
     AccountId: '952284683965'
     Region: eu-west-1
+    NeedsManualApproval: false
     ConfigOverrides: ~
   Pre:
     Enabled: false
@@ -19,19 +20,21 @@ Environments:
     ShortName: Pre
     AccountId: '847334008802'
     Region: eu-west-1
+    NeedsManualApproval: false
     ConfigOverrides: ~
   Pro:
-    Enabled: false
+    Enabled: true
     Name: Production
     ShortName: Pro
     AccountId: '814312087360'
     Region: eu-west-1
+    NeedsManualApproval: true
     ConfigOverrides: ~
 GlobalConfig:
   S3Bucket:
     ExpirationDays: 3
   Vpc:
-    CidrRange: '10.0.81.0/16'
+    CidrRange: '10.81.0.0/16'
     MaxAzs: 2
     NatGateways: 1
     UseNatInstances: true

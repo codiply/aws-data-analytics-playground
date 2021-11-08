@@ -26,6 +26,10 @@ class EnvironmentConfig():
         return self._config['Environment.Region']
 
     @property
+    def needs_manual_approval(self) -> bool:
+        return self._config.get_bool('Environment.NeedsManualApproval')
+
+    @property
     def project(self) -> str:
         return self._config['Environment.Project']
 
