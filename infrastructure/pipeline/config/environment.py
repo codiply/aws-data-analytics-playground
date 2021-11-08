@@ -3,41 +3,44 @@ from benedict import benedict
 
 class EnvironmentConfig():
     def __init__(self, config: benedict):
-        self.config = config.clone()
+        self._config = config.clone()
 
     @property
-    def environment_enabled(self):
-        return self.config.get_bool('Environment.Enabled')
+    def environment_enabled(self) -> bool:
+        return self._config.get_bool('Environment.Enabled')
 
     @property
-    def environment_name(self):
-        return self.config['Environment.Name']
+    def environment_name(self) -> str:
+        return self._config['Environment.Name']
 
     @property
-    def environment_short_name(self):
-        return self.config['Environment.ShortName']
+    def environment_short_name(self) -> str:
+        return self._config['Environment.ShortName']
 
     @property
-    def account_id(self):
-        return self.config['Environment.AccountId']
+    def account_id(self) -> str:
+        return self._config['Environment.AccountId']
 
     @property
-    def region(self):
-        return self.config['Environment.Region']
+    def region(self) -> str:
+        return self._config['Environment.Region']
 
     @property
-    def project(self):
-        return self.config['Environment.Project']
+    def project(self) -> str:
+        return self._config['Environment.Project']
 
     @property
-    def resource_prefix(self):
+    def resource_prefix(self) -> str:
         return f"{self.project}-{self.environment_short_name.lower()}"
+
+    def section(self, key: str) -> benedict:
+        return self._config[key]
 
     def for_sections(self, sections: typing.Sequence[str]):
         config = benedict()
 
-        config['Environment'] = self.config['Environment']
+        config['Environment'] = self._config['Environment']
         for section in sections:
-            config[section] = self.config[section]
+            config[section] = self._config[section]
 
         return EnvironmentConfig(config)

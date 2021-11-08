@@ -30,3 +30,9 @@ Environments:
 GlobalConfig:
   S3Bucket:
     ExpirationDays: 3
+  Vpc:
+    CidrRange: '10.0.81.0/16'
+    MaxAzs: 2
+    NatGateways: 1
+    UseNatInstances: true
+    NatInstanceType: 't3.micro'
