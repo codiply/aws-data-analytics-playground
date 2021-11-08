@@ -18,6 +18,7 @@ class Networking(cdk.Construct):
                       cidr=vpc_config['CidrRange'],
                       max_azs=vpc_config['MaxAzs'],
                       nat_gateway_provider=nat_gateway_provider,
+                      nat_gateways=vpc_config['NatGateways'],
                       subnet_configuration=[
                           ec2.SubnetConfiguration(
                               cidr_mask=24,
