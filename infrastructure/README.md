@@ -80,3 +80,11 @@ To undo any of the above steps, delete the CloudFormation template named `CDKToo
 
 - Generate an OAuth token following [these steps](https://docs.aws.amazon.com/codepipeline/latest/userguide/appendix-github-oauth.html#action-reference-GitHub-auth)
 - Store it in the pipeline account in Secrets Manager under key `/github/oauth-token`
+
+### Configuration
+
+You can replicate pipelines in the following way
+
+- Each pipeline will need its own configuration file in folder `config/`
+- The `Project` will need to have a unique value
+- Deploy (or synth) with `cdk deploy -c pipeline_name=test`

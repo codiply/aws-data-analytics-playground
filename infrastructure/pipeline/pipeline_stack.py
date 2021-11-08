@@ -12,18 +12,20 @@ class CdkPipelineStack(cdk.Stack):
     def __init__(self, scope: cdk.Construct, id: str, config: PipelineConfig, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
+        ci_cd_config: benedict = config.for_ci_cd_environment()
+
         source_artifact = codepipeline.Artifact()
         cloud_assembly_artifact = codepipeline.Artifact()
 
         source = pipelines.CodePipelineSource.git_hub(
-            repo_string='codiply/aws-data-analytics-playground',
-            branch='main',
-            authentication=cdk.SecretValue.secrets_manager(secret_id='/github/oauth-token'))
+            repo_string=ci_cd_config['GitHubRepo'],
+            branch=ci_cd_config['GitBranch'],
+            authentication=cdk.SecretValue.secrets_manager(secret_id=ci_cd_config['GitHubOauthTokenSsmParameter']))
 
         pipeline = pipelines.CodePipeline(
             self,
             'pipeline',
-            pipeline_name='aws-data-analytics',
+            pipeline_name=f"{ci_cd_config['Project']}-ci-cd-pipeline",
             cross_account_keys=True,
             self_mutation=True,
             synth=pipelines.ShellStep('Synthesize',
