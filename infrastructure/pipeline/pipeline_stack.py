@@ -1,6 +1,7 @@
 from aws_cdk import core as cdk
 from aws_cdk import aws_codepipeline as codepipeline
 from aws_cdk import aws_codepipeline_actions as cpactions
+from aws_cdk import aws_iam as iam
 from aws_cdk import pipelines
 
 from .config.environment import EnvironmentConfig
@@ -28,15 +29,26 @@ class CdkPipelineStack(cdk.Stack):
             pipeline_name=f"{ci_cd_config['Project']}-ci-cd-pipeline",
             cross_account_keys=True,
             self_mutation=True,
-            synth=pipelines.ShellStep('Synthesize',
-                                      input=source,
-                                      primary_output_directory='infrastructure/cdk.out',
-                                      commands=[
-                                          "cd infrastructure",
-                                          "npm install -g aws-cdk",
-                                          "python -m pip install -r requirements.txt",
-                                          f"cdk synth -c pipeline_name={config.pipeline_name}"
-                                      ]))
+            synth=pipelines.CodeBuildStep('Synthesize',
+                                          input=source,
+                                          primary_output_directory='infrastructure/cdk.out',
+                                          commands=[
+                                              "cd infrastructure",
+                                              "npm install -g aws-cdk",
+                                              "python -m pip install -r requirements.txt",
+                                              f"cdk synth -c pipeline_name={config.pipeline_name}"
+                                          ],
+                                          role_policy_statements=[
+                                              iam.PolicyStatement(
+                                                  actions=['sts:AssumeRole'],
+                                                  resources=['*'],
+                                                  conditions={
+                                                      'StringEquals': {
+                                                          'iam:ResourceTag/aws-cdk:bootstrap-role': 'lookup'
+                                                      }
+                                                  }
+                                              )
+                                          ]))
 
         environment_config: EnvironmentConfig
         for environment_config in config.for_all_environments():
