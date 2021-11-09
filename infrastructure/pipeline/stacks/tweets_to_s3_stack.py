@@ -21,7 +21,7 @@ class TweetsToS3Stack(cdk.Stack):
         EventFirehose(
             self,
             'event-firehose',
-            config.for_sections([]),
+            config.for_sections(['EventFirehose']),
             s3_bucket=s3_bucket,
             event_name='tweets',
-            path_prefix='tweets')  # TODO: pull this from config
+            path_prefix=config.section('Tweets')['S3PathPrefix'])

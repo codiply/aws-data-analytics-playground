@@ -1,5 +1,6 @@
 import base64
 
+
 def main(event, context):
     output = []
     for record in event['records']:
@@ -12,4 +13,4 @@ def main(event, context):
         }
         output.append(output_record)
 
-    return { 'records': output }
+    return {'records': output}

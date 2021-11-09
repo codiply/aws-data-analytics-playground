@@ -9,6 +9,7 @@ from ..config.environment import EnvironmentConfig
 from ..constants.resource_arn import ResourceArn
 from ..constants.s3_paths import S3Paths
 from ..constants.service_principal import ServicePrincipal
+from benedict import benedict
 
 
 class EventFirehose(cdk.Construct):
@@ -25,6 +26,8 @@ class EventFirehose(cdk.Construct):
         self._s3_bucket: s3.Bucket = s3_bucket
         self._event_name: str = event_name
         self._path_prefix: str = path_prefix
+
+        self._event_firehose_config: benedict = config.section('EventFirehose')
 
         role = self._define_role()
         date_path = 'year=!{timestamp:yyyy}/month=!{timestamp:MM}/day=!{timestamp:dd}/hour=!{timestamp:HH}'
@@ -48,7 +51,10 @@ class EventFirehose(cdk.Construct):
                     s3_bucket,
                     processor=lambda_processor,
                     role=role,
-                    buffering_interval=cdk.Duration.seconds(60),  # TODO: Pull from config
+                    buffering_interval=cdk.Duration.seconds(
+                        self._event_firehose_config.get_int('BufferingIntervalSeconds')),
+                    buffering_size=cdk.Size.mebibytes(
+                        self._event_firehose_config.get_int('BufferingSizeMiB')),
                     data_output_prefix=f"{path_prefix}/{S3Paths.RAW_EVENTS}/{date_path}",
                     error_output_prefix=f"{path_prefix}/{S3Paths.RAW_EVENTS_FIREHOSE_ERROR}/{date_path}",
                 )
@@ -83,9 +89,9 @@ class EventFirehose(cdk.Construct):
     def add_s3_lifecycle_rules(self) -> None:
         self._s3_bucket.add_lifecycle_rule(
             prefix=f"{self._path_prefix}/{S3Paths.RAW_EVENTS}",
-            expiration=cdk.Duration.days(3)  # TODO: Pull from config
+            expiration=cdk.Duration.days(self._event_firehose_config.get_int('DataOutputExpirationDays'))
         )
         self._s3_bucket.add_lifecycle_rule(
             prefix=f"{self._path_prefix}/{S3Paths.RAW_EVENTS_FIREHOSE_ERROR}",
-            expiration=cdk.Duration.days(3)  # TODO: Pull from config
+            expiration=cdk.Duration.days(self._event_firehose_config.get_int('ErrorOutputExpirationDays'))
         )

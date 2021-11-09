@@ -12,11 +12,18 @@ class MainStage(cdk.Stage):
         common_stack = CommonStack(
             self,
             f"{config.resource_prefix}-common",
-            config.for_sections(['EcsCluster', 'S3Bucket', 'Vpc']))
+            config.for_sections(['EcsCluster',
+                                 'S3Bucket',
+                                 'Vpc']))
 
         TweetsToS3Stack(
             self,
             f"{config.resource_prefix}-tweets-to-s3",
-            config=config.for_sections([]),
+            config=config.for_sections([
+                'Common',
+                'EventFirehose',
+                'Tweets',
+                'TweetsFirehoseProducer',
+                'TwitterApi']),
             s3_bucket=common_stack.s3_bucket,
             ecs_cluster=common_stack.ecs_cluster)

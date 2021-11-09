@@ -31,10 +31,24 @@ Environments:
     NeedsManualApproval: true
     ConfigOverrides: ~
 GlobalConfig:
+  Common:
+    XRayEnabled: false
   EcsCluster:
     ContainerInsightsEnabled: true
+  EventFirehose:
+    BufferingIntervalSeconds: 60
+    BufferingSizeMiB: 5
+    DataOutputExpirationDays: 30
+    ErrorOutputExpirationDays: 30
   S3Bucket:
     ExpirationDays: 3
+  Tweets:
+    S3PathPrefix: 'tweets'
+  TweetsFirehoseProducer:
+    Enabled: true
+    Filter: '#aws'
+    MemoryLimitMiB: 512
+    Cpu: 256
   TwitterApi:
     ConsumerKeySsmParameter: '/twitter-api/consumer-key'
     ConsumerSecretSsmParameter: '/twitter-api/consumer-secret'
