@@ -25,6 +25,7 @@ class CdkPipelineStack(cdk.Stack):
             pipeline_name=f"{ci_cd_config['Project']}-ci-cd-pipeline",
             cross_account_keys=True,
             self_mutation=True,
+            docker_enabled_for_synth=True,
             synth=pipelines.CodeBuildStep('Synthesize',
                                           input=source,
                                           primary_output_directory='infrastructure/cdk.out',
