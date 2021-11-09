@@ -3,6 +3,7 @@ from aws_cdk import aws_ec2 as ec2
 
 from ..config.environment import EnvironmentConfig
 
+
 class Networking(cdk.Construct):
     def __init__(self, scope: cdk.Construct, id: str, config: EnvironmentConfig):
         super().__init__(scope, id)
@@ -10,9 +11,10 @@ class Networking(cdk.Construct):
         vpc_config = config.section('Vpc')
 
         if vpc_config['UseNatInstances']:
-            nat_gateway_provider = ec2.NatInstanceProvider.instance(instance_type=ec2.InstanceType(vpc_config['NatInstanceType']))
+            nat_gateway_provider = ec2.NatInstanceProvider.instance(
+                instance_type=ec2.InstanceType(vpc_config['NatInstanceType']))
         else:
-            nat_gateway_providerec2.NatInstanceProvider.gateway()
+            nat_gateway_provider = ec2.NatInstanceProvider.gateway()
 
         vpc = ec2.Vpc(self, 'vpc',
                       cidr=vpc_config['CidrRange'],
