@@ -5,7 +5,7 @@ from aws_cdk import aws_s3 as s3
 from benedict import benedict
 
 from ..config.environment import EnvironmentConfig
-from ..constants.resource_arn import ResourceArn
+from ..constants.resource_names import ResourceNames
 from ..constructs.networking import Networking
 
 
@@ -28,7 +28,7 @@ class CommonStack(cdk.Stack):
         self.s3_bucket = s3.Bucket(
             self,
             's3-bucket',
-            bucket_name=ResourceArn.bucket(self._config),
+            bucket_name=ResourceNames.bucket(self._config),
             removal_policy=cdk.RemovalPolicy.DESTROY,
             lifecycle_rules=[
                 s3.LifecycleRule(expiration=cdk.Duration.days(s3_bucket_config['ExpirationDays']))
