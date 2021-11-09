@@ -3,8 +3,8 @@ from benedict import benedict
 
 
 class EnvironmentConfig():
-    def __init__(self, config: dict):
-        self._config: dict = config.clone()
+    def __init__(self, config):
+        self._config = config.clone()
 
     @property
     def environment_enabled(self) -> bool:

@@ -5,8 +5,8 @@ import typing
 from aws_cdk import core as cdk
 from benedict import benedict
 
-from config.pipeline import PipelineConfig
-from .pipeline.pipeline_stack import CdkPipelineStack
+from pipeline.config.pipeline import PipelineConfig
+from pipeline.pipeline_stack import CdkPipelineStack
 
 app = cdk.App()
 

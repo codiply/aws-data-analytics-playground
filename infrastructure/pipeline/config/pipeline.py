@@ -8,7 +8,7 @@ from .environment import EnvironmentConfig
 class PipelineConfig():
     def __init__(self, config_directory: str, pipeline_name: str = None):
         self.pipeline_name: str = pipeline_name if pipeline_name else "main"
-        self._config: str = benedict(os.path.join(config_directory, f'{self.pipeline_name}.yaml'), format='yaml')
+        self._config = benedict(os.path.join(config_directory, f'{self.pipeline_name}.yaml'), format='yaml')
 
     def for_ci_cd_environment(self) -> dict:
         config = self._config['CiCdEnvironment'].clone()

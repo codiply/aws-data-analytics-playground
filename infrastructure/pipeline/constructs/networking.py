@@ -10,6 +10,7 @@ class Networking(cdk.Construct):
 
         vpc_config = config.section('Vpc')
 
+        nat_gateway_provider: ec2.NatProvider
         if vpc_config['UseNatInstances']:
             nat_gateway_provider = ec2.NatInstanceProvider.instance(
                 instance_type=ec2.InstanceType(vpc_config['NatInstanceType']))
