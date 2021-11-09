@@ -20,6 +20,7 @@ setuptools.setup(
 
     install_requires=[
         "aws-cdk.core==1.130.0",
+        "aws-cdk.aws-kinesisfirehose-destinations",
         "aws-cdk.pipelines==1.130.0",
         "flake8==4.0.1",
         "mypy==0.910",

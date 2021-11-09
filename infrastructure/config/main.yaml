@@ -35,6 +35,11 @@ GlobalConfig:
     ContainerInsightsEnabled: true
   S3Bucket:
     ExpirationDays: 3
+  TwitterApi:
+    ConsumerKeySsmParameter: '/twitter-api/consumer-key'
+    ConsumerSecretSsmParameter: '/twitter-api/consumer-secret'
+    AccessTokenSsmParameter: '/twitter-api/access-token'
+    AccessTokenSecretSsmParameter: '/twitter-api/access-token-secret'
   Vpc:
     CidrRange: '10.81.0.0/16'
     MaxAzs: 2

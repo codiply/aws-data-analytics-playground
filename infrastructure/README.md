@@ -88,3 +88,12 @@ You can replicate pipelines in the following way
 - Each pipeline will need its own configuration file in folder `config/`
 - The `Project` will need to have a unique value
 - Deploy (or synth) with `cdk deploy -c pipeline_name=test`
+
+### Twitter API
+
+Create the following parameters as secure strings in Parameter Store and store the corresponding value
+
+- `/twitter-api/access-token`
+- `/twitter-api/access-token-secret`
+- `/twitter-api/consumer-key`
+- `/twitter-api/consumer-secret`
