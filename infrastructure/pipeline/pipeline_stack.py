@@ -1,8 +1,7 @@
 from aws_cdk import core as cdk
-from aws_cdk import aws_codepipeline as codepipeline
-from aws_cdk import aws_codepipeline_actions as cpactions
 from aws_cdk import aws_iam as iam
 from aws_cdk import pipelines
+from benedict import benedict
 
 from .config.environment import EnvironmentConfig
 from .config.pipeline import PipelineConfig
@@ -14,9 +13,6 @@ class CdkPipelineStack(cdk.Stack):
         super().__init__(scope, id, **kwargs)
 
         ci_cd_config: benedict = config.for_ci_cd_environment()
-
-        source_artifact = codepipeline.Artifact()
-        cloud_assembly_artifact = codepipeline.Artifact()
 
         source = pipelines.CodePipelineSource.git_hub(
             repo_string=ci_cd_config['GitHubRepo'],
@@ -36,6 +32,7 @@ class CdkPipelineStack(cdk.Stack):
                                               "cd infrastructure",
                                               "npm install -g aws-cdk",
                                               "python -m pip install -r requirements.txt",
+                                              "./scripts/check.sh",
                                               f"cdk synth -c pipeline_name={config.pipeline_name}"
                                           ],
                                           role_policy_statements=[

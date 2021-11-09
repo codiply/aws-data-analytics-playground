@@ -1,6 +1,7 @@
 import typing
 from benedict import benedict
 
+
 class EnvironmentConfig():
     def __init__(self, config: benedict):
         self._config = config.clone()

@@ -9,11 +9,11 @@ setuptools.setup(
     name="pipeline",
     version="0.0.1",
 
-    description="An empty CDK Python app",
+    description="AWS Data Analytics Playground",
     long_description=long_description,
     long_description_content_type="text/markdown",
 
-    author="author",
+    author="Panagiotis Katsaroumpas",
 
     package_dir={"": "pipeline"},
     packages=setuptools.find_packages(where="pipeline"),
@@ -21,6 +21,8 @@ setuptools.setup(
     install_requires=[
         "aws-cdk.core==1.130.0",
         "aws-cdk.pipelines==1.130.0",
+        "flake8==4.0.1",
+        "mypy==0.910",
         "python-benedict==0.24.3"
     ],
 
