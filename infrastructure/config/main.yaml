@@ -31,6 +31,8 @@ Environments:
     NeedsManualApproval: true
     ConfigOverrides: ~
 GlobalConfig:
+  EcsCluster:
+    ContainerInsightsEnabled: true
   S3Bucket:
     ExpirationDays: 3
   Vpc:
