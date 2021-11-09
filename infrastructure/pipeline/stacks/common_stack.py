@@ -14,9 +14,9 @@ class CommonStack(cdk.Stack):
 
         self._define_s3_bucket()
 
-        networking = Networking(self, 'networking', config.for_sections(['Vpc']))
-
-        self.vpc = networking.vpc
+        # networking = Networking(self, 'networking', config.for_sections(['Vpc']))
+        #
+        # self.vpc = networking.vpc
 
     def _define_s3_bucket(self):
         s3_bucket_config: benedict = self._config.section('S3Bucket')
