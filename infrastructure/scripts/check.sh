@@ -2,4 +2,4 @@
 
 set -euo pipefail
 
-flake8 pipeline/ app.py --max-line-length=120 --count
+python -m flake8 pipeline/ app.py --max-line-length=120 --count
