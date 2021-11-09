@@ -3,8 +3,8 @@ from benedict import benedict
 
 
 class EnvironmentConfig():
-    def __init__(self, config: benedict):
-        self._config = config.clone()
+    def __init__(self, config: dict):
+        self._config: dict = config.clone()
 
     @property
     def environment_enabled(self) -> bool:
@@ -38,7 +38,7 @@ class EnvironmentConfig():
     def resource_prefix(self) -> str:
         return f"{self.project}-{self.environment_short_name.lower()}"
 
-    def section(self, key: str) -> benedict:
+    def section(self, key: str) -> dict:
         return self._config[key]
 
     def for_sections(self, sections: typing.Sequence[str]):
