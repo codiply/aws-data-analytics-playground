@@ -9,7 +9,7 @@ def main(event, context):
         output_record = {
             'recordId': record['recordId'],
             'result': 'Ok',
-            'data': base64.b64encode(payload)
+            'data': base64.b64encode(payload).decode("utf-8")
         }
         output.append(output_record)
 
