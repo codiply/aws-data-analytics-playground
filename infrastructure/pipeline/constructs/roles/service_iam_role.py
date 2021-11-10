@@ -14,9 +14,9 @@ class ServiceIamRole(cdk.Construct):
                  short_name: str,
                  full_name: str,
                  service_principal: str,
-                 policy_statements: typing.Sequence[iam.PolicyStatement] = [],
-                 aws_managed_policy_names: typing.Sequence[str] = [],
-                 customer_managed_policies: typing.Sequence[iam.Policy] = []):
+                 policy_statements: typing.Sequence[iam.PolicyStatement] = (),
+                 aws_managed_policy_names: typing.Sequence[str] = (),
+                 customer_managed_policies: typing.Sequence[iam.Policy] = ()):
         super().__init__(scope, id)
 
         self.role: iam.Role = iam.Role(

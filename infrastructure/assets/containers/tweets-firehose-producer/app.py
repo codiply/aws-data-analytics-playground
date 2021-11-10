@@ -9,7 +9,6 @@ import tweepy
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 ssm_client = boto3.client('ssm')
-firehose_client = boto3.client('firehose')
 
 consumer_key = ssm_client.get_parameter(
     Name=os.getenv('TWITTER_API_CONSUMER_KEY_SSM_PARAMETER'),
@@ -50,6 +49,6 @@ class TweetsProducer(tweepy.StreamListener):
 
 
 if __name__ == "__main__":
-    tweets_producer = TweetsProducer(firehose_client)
+    tweets_producer = TweetsProducer(boto3.client('firehose'))
     stream = tweepy.Stream(auth=auth, listener=tweets_producer)
     stream.filter(track=[tweets_filter])

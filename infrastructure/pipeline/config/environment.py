@@ -2,7 +2,7 @@ import typing
 from benedict import benedict
 
 
-class EnvironmentConfig():
+class EnvironmentConfig:
     def __init__(self, config):
         self._config = config.clone()
 
@@ -38,7 +38,7 @@ class EnvironmentConfig():
     def resource_prefix(self) -> str:
         return f"{self.project}-{self.environment_short_name.lower()}"
 
-    def section(self, key: str) -> dict:
+    def section(self, key: str) -> benedict:
         return self._config[key]
 
     def for_sections(self, sections: typing.Sequence[str]):
