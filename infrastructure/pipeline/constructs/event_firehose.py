@@ -3,6 +3,7 @@ from aws_cdk import aws_iam as iam
 from aws_cdk import aws_kinesisfirehose as firehose
 from aws_cdk import aws_kinesisfirehose_destinations as destinations
 from aws_cdk import aws_lambda as lambda_
+from aws_cdk import aws_logs as logs
 from aws_cdk import aws_lambda_python as lambda_python
 from aws_cdk import aws_s3 as s3
 
@@ -41,7 +42,7 @@ class EventFirehose(cdk.Construct):
             index="lambda-handler.py",
             handler="main",
             runtime=lambda_.Runtime.PYTHON_3_9,
-            log_retention=cdk.Duration.days(7)
+            log_retention=logs.RetentionDays.ONE_WEEK
         )
 
         lambda_processor = firehose.LambdaFunctionProcessor(lambda_function)

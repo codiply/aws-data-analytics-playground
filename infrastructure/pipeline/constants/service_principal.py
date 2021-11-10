@@ -1,3 +1,5 @@
 class ServicePrincipal():
-    FIREHOSE = 'firehose.amazonaws.com'
+    DATABREW = 'databrew.amazonaws.com'
     ECS_TASK = 'ecs-tasks.amazonaws.com'
+    FIREHOSE = 'firehose.amazonaws.com'
+    GLUE = 'glue.amazonaws.com'

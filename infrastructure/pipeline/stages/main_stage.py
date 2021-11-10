@@ -1,6 +1,7 @@
 from aws_cdk import core as cdk
 
 from ..config.environment import EnvironmentConfig
+from ..stacks.iam_roles_stack import IamRolesStack
 from ..stacks.common_stack import CommonStack
 from ..stacks.tweets_to_s3_stack import TweetsToS3Stack
 
@@ -8,6 +9,12 @@ from ..stacks.tweets_to_s3_stack import TweetsToS3Stack
 class MainStage(cdk.Stage):
     def __init__(self, scope: cdk.Construct, id: str, config: EnvironmentConfig, **kwargs):
         super().__init__(scope, id, **kwargs)
+
+        IamRolesStack(
+            self,
+            f"{config.resource_prefix}-iam-roles",
+            config=config.for_sections([])
+        )
 
         common_stack = CommonStack(
             self,
