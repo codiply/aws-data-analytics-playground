@@ -5,4 +5,4 @@ from .resource_names import ResourceNames
 class ResourceArn():
     @staticmethod
     def bucket(config: EnvironmentConfig):
-        return f"arn:aws:s3::{ResourceNames.bucket(config)}"
+        return f"arn:aws:s3:::{ResourceNames.bucket(config)}"
