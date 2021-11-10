@@ -56,7 +56,8 @@ class EventFirehose(cdk.Construct):
                     buffering_size=cdk.Size.mebibytes(
                         self._event_firehose_config.get_int('BufferingSizeMiB')),
                     data_output_prefix=f"{path_prefix}/{S3Paths.RAW_EVENTS}/{date_path}/",
-                    error_output_prefix=f"{path_prefix}/{S3Paths.RAW_EVENTS_FIREHOSE_ERROR}/result=!{firehose:error-output-type}/{date_path}/",
+                    error_output_prefix=f"{path_prefix}/{S3Paths.RAW_EVENTS_FIREHOSE_ERROR}/" +
+                                        f"result=!{firehose:error-output-type}/{date_path}/"
                 )
             ]
         )
