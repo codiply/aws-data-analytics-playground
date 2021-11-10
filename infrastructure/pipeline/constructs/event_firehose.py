@@ -40,7 +40,8 @@ class EventFirehose(cdk.Construct):
             entry="./assets/lambdas/event-firehose-processor",
             index="lambda-handler.py",
             handler="main",
-            runtime=lambda_.Runtime.PYTHON_3_9
+            runtime=lambda_.Runtime.PYTHON_3_9,
+            log_retention=cdk.Duration.days(7)
         )
 
         lambda_processor = firehose.LambdaFunctionProcessor(lambda_function)
