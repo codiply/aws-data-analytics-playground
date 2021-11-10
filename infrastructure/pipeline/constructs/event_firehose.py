@@ -43,7 +43,7 @@ class EventFirehose(cdk.Construct):
 
         lambda_processor = firehose.LambdaFunctionProcessor(lambda_function)
 
-        firehose.DeliveryStream(
+        self.delivery_stream: firehose.DeliveryStream = firehose.DeliveryStream(
             self,
             'firehose-delivery-stream',
             destinations=[
