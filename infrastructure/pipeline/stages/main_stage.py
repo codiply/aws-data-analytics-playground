@@ -1,7 +1,7 @@
 from aws_cdk import core as cdk
 
 from ..config.environment import EnvironmentConfig
-from ..stacks.iam_roles_stack import IamRolesStack
+from ..stacks.base_stack import BaseStack
 from ..stacks.common_stack import CommonStack
 from ..stacks.tweets_to_s3_stack import TweetsToS3Stack
 
@@ -10,17 +10,16 @@ class MainStage(cdk.Stage):
     def __init__(self, scope: cdk.Construct, id: str, config: EnvironmentConfig, **kwargs):
         super().__init__(scope, id, **kwargs)
 
-        IamRolesStack(
+        base_stack: BaseStack = BaseStack(
             self,
-            f"{config.resource_prefix}-iam-roles",
-            config=config.for_sections([])
+            f"{config.resource_prefix}-base",
+            config.for_sections(['S3Bucket'])
         )
 
-        common_stack = CommonStack(
+        common_stack: CommonStack = CommonStack(
             self,
             f"{config.resource_prefix}-common",
             config.for_sections(['EcsCluster',
-                                 'S3Bucket',
                                  'Vpc']))
 
         TweetsToS3Stack(
@@ -32,5 +31,5 @@ class MainStage(cdk.Stage):
                 'Tweets',
                 'TweetsFirehoseProducer',
                 'TwitterApi']),
-            s3_bucket=common_stack.s3_bucket,
+            s3_bucket=base_stack.s3_bucket,
             ecs_cluster=common_stack.ecs_cluster)
