@@ -44,7 +44,7 @@ GlobalConfig:
   Etl:
     Crawlers:
       TweetsRawData:
-        ScheduleCronExpression: '15 12 * * ? *'
+        ScheduleCronExpression: '00 * * * ? *'
   EventFirehose:
     BufferingIntervalSeconds: 60
     BufferingSizeMiB: 5
