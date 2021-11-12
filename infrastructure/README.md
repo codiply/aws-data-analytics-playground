@@ -97,3 +97,9 @@ Create the following parameters as secure strings in Parameter Store and store t
 - `/twitter-api/access-token-secret`
 - `/twitter-api/consumer-key`
 - `/twitter-api/consumer-secret`
+
+### Redshift
+
+Create the following parameter in Parameter Store as secure string
+
+- `/data-analytics-playground/redshift/master-password`

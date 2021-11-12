@@ -3,6 +3,7 @@ from aws_cdk import core as cdk
 from ..config.environment import EnvironmentConfig
 from ..stacks.base_stack import BaseStack
 from ..stacks.common_stack import CommonStack
+from ..stacks.data_warehouse_stack import DataWarehouseStack
 from ..stacks.tweets_to_s3_stack import TweetsToS3Stack
 
 
@@ -36,3 +37,11 @@ class MainStage(cdk.Stage):
                     'TwitterApi']),
                 s3_bucket=base_stack.s3_bucket,
                 ecs_cluster=common_stack.ecs_cluster)
+
+        if config.stack_enabled('DataWarehouse'):
+            DataWarehouseStack(
+                self,
+                f"{config.resource_prefix}-data-warehouse",
+                config=config.for_sections(['Redshift']),
+                vpc=common_stack.vpc
+            )

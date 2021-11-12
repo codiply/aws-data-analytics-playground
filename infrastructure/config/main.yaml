@@ -34,6 +34,7 @@ GlobalConfig:
   StackSwitches:
     Base: true
     Common: true
+    DataWarehouse: true
     TweetsToS3: true
   Common:
     XRayEnabled: false
@@ -44,6 +45,12 @@ GlobalConfig:
     BufferingSizeMiB: 5
     DataOutputExpirationDays: 30
     ErrorOutputExpirationDays: 30
+  Redshift:
+    MasterUsername: 'admin'
+    MasterPasswordSsmParameter: '/data-analytics-playground/redshift/master-password'
+    DefaultDatabaseName: 'playground_db'
+    IsSingleNode: true
+    NumberOfNodes: 2
   S3Bucket:
     ExpirationDays: 3
   Tweets:
