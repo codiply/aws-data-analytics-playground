@@ -35,11 +35,16 @@ GlobalConfig:
     Base: true
     Common: true
     DataWarehouse: true
+    Etl: true
     TweetsToS3: true
   Common:
     XRayEnabled: false
   EcsCluster:
     ContainerInsightsEnabled: true
+  Etl:
+    Crawlers:
+      TweetsRawData:
+        ScheduleCronExpression: '15 12 * * ? *'
   EventFirehose:
     BufferingIntervalSeconds: 60
     BufferingSizeMiB: 5

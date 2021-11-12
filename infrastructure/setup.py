@@ -20,6 +20,7 @@ setuptools.setup(
 
     install_requires=[
         "aws-cdk.core==1.130.0",
+        "aws-cdk.aws-glue==1.130.0",
         "aws-cdk.aws-kinesisfirehose-destinations==1.130.0",
         "aws-cdk.aws-lambda-python==1.130.0",
         "aws-cdk.aws-redshift==1.130.0",

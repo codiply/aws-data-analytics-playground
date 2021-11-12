@@ -1,4 +1,5 @@
 from aws_cdk import core as cdk
+from aws_cdk import aws_iam as iam
 from aws_cdk import aws_s3 as s3
 
 from ..config.environment import EnvironmentConfig
@@ -30,14 +31,14 @@ class BaseStack(cdk.Stack):
             ])
 
     def _define_roles(self):
-        DataBrewRole(
+        self.data_brew_role: iam.Role = DataBrewRole(
             self,
             'databrew-role',
             self._config.for_sections([])
-        )
+        ).role
 
-        GlueRole(
+        self.glue_role: iam.Role = GlueRole(
             self,
             'glue-role',
             self._config.for_sections([])
-        )
+        ).role

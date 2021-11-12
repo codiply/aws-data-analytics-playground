@@ -14,8 +14,6 @@ class DataWarehouseStack(cdk.Stack):
                  **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
-        self._config: EnvironmentConfig = config
-
         RedshiftCluster(
             self,
             'redshift-cluster',

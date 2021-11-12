@@ -4,6 +4,7 @@ from ..config.environment import EnvironmentConfig
 from ..stacks.base_stack import BaseStack
 from ..stacks.common_stack import CommonStack
 from ..stacks.data_warehouse_stack import DataWarehouseStack
+from ..stacks.etl_stack import EtlStack
 from ..stacks.tweets_to_s3_stack import TweetsToS3Stack
 
 
@@ -44,4 +45,12 @@ class MainStage(cdk.Stage):
                 f"{config.resource_prefix}-data-warehouse",
                 config=config.for_sections(['Redshift']),
                 vpc=common_stack.vpc
+            )
+
+        if config.stack_enabled('Etl'):
+            EtlStack(
+                self,
+                f"{config.resource_prefix}-etl",
+                config=config.for_sections(['Etl']),
+                glue_role=base_stack.glue_role
             )

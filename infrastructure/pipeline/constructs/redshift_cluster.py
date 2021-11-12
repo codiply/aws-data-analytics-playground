@@ -18,6 +18,7 @@ class RedshiftCluster(cdk.Construct):
         redshift.Cluster(
             self,
             'redshift-cluster',
+            cluster_name=f"{config.resource_prefix}-cluster",
             vpc=vpc,
             master_user=redshift.Login(
                 master_username=redshift_config['MasterUsername'],
@@ -30,5 +31,6 @@ class RedshiftCluster(cdk.Construct):
                           else redshift.ClusterType.MULTI_NODE),
             number_of_nodes=(redshift_config.get_int('NumberOfNodes') if not redshift_config.get_bool('IsSingleNode')
                              else None),
+            node_type=redshift.NodeType.DC2_LARGE,
             removal_policy=cdk.RemovalPolicy.DESTROY
         )
