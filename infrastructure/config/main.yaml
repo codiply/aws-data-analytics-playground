@@ -30,6 +30,10 @@ Environments:
     Region: eu-west-1
     NeedsManualApproval: true
     ConfigOverrides: ~
+StackSwitches:
+  Base: true
+  Common: false
+  TweetsToS3: false
 GlobalConfig:
   Common:
     XRayEnabled: false

@@ -45,7 +45,11 @@ class EnvironmentConfig:
         config = benedict()
 
         config['Environment'] = self._config['Environment']
+        config['StackSwitches'] = self._config['StackSwitches']
         for section in sections:
             config[section] = self._config[section]
 
         return EnvironmentConfig(config)
+
+    def stack_enabled(self, stack_name: str) -> bool:
+        return self._config['StackSwitches'].get_bool(stack_name)

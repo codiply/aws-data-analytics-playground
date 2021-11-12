@@ -10,26 +10,29 @@ class MainStage(cdk.Stage):
     def __init__(self, scope: cdk.Construct, id: str, config: EnvironmentConfig, **kwargs):
         super().__init__(scope, id, **kwargs)
 
-        base_stack: BaseStack = BaseStack(
-            self,
-            f"{config.resource_prefix}-base",
-            config.for_sections(['S3Bucket'])
-        )
+        if config.stack_enabled('Base'):
+            base_stack: BaseStack = BaseStack(
+                self,
+                f"{config.resource_prefix}-base",
+                config.for_sections(['S3Bucket'])
+            )
 
-        common_stack: CommonStack = CommonStack(
-            self,
-            f"{config.resource_prefix}-common",
-            config.for_sections(['EcsCluster',
-                                 'Vpc']))
+        if config.stack_enabled('Common'):
+            common_stack: CommonStack = CommonStack(
+                self,
+                f"{config.resource_prefix}-common",
+                config.for_sections(['EcsCluster',
+                                     'Vpc']))
 
-        TweetsToS3Stack(
-            self,
-            f"{config.resource_prefix}-tweets-to-s3",
-            config=config.for_sections([
-                'Common',
-                'EventFirehose',
-                'Tweets',
-                'TweetsFirehoseProducer',
-                'TwitterApi']),
-            s3_bucket=base_stack.s3_bucket,
-            ecs_cluster=common_stack.ecs_cluster)
+        if config.stack_enabled('TweetsToS3'):
+            TweetsToS3Stack(
+                self,
+                f"{config.resource_prefix}-tweets-to-s3",
+                config=config.for_sections([
+                    'Common',
+                    'EventFirehose',
+                    'Tweets',
+                    'TweetsFirehoseProducer',
+                    'TwitterApi']),
+                s3_bucket=base_stack.s3_bucket,
+                ecs_cluster=common_stack.ecs_cluster)
