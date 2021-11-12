@@ -36,7 +36,7 @@ GlobalConfig:
     Common: true
     DataWarehouse: false
     Etl: true
-    TweetsToS3: true
+    TweetsToS3: false
   Common:
     XRayEnabled: false
   EcsCluster:
