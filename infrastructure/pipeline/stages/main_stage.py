@@ -51,6 +51,6 @@ class MainStage(cdk.Stage):
             EtlStack(
                 self,
                 f"{config.resource_prefix}-etl",
-                config=config.for_sections(['Etl']),
+                config=config.for_sections(['Etl', 'Tweets']),
                 glue_role=base_stack.glue_role
             )

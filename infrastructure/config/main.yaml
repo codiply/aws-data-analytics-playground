@@ -34,7 +34,7 @@ GlobalConfig:
   StackSwitches:
     Base: true
     Common: true
-    DataWarehouse: true
+    DataWarehouse: false
     Etl: true
     TweetsToS3: true
   Common:

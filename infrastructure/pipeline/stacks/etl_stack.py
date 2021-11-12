@@ -32,7 +32,8 @@ class EtlStack(cdk.Stack):
             targets=glue.CfnCrawler.TargetsProperty(
                 s3_targets=[
                     glue.CfnCrawler.S3TargetProperty(
-                        path=f"s3://{ResourceNames.bucket(config)}/{S3Paths.RAW_EVENTS}"
+                        path=f"s3://{ResourceNames.bucket(config)}/{config.section('Tweets')['S3PathPrefix']}/" +
+                             f"{S3Paths.RAW_EVENTS}"
                     )
                 ]
             ),
