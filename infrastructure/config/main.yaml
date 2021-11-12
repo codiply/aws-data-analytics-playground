@@ -30,11 +30,11 @@ Environments:
     Region: eu-west-1
     NeedsManualApproval: true
     ConfigOverrides: ~
-StackSwitches:
-  Base: true
-  Common: false
-  TweetsToS3: false
 GlobalConfig:
+  StackSwitches:
+    Base: true
+    Common: false
+    TweetsToS3: false
   Common:
     XRayEnabled: false
   EcsCluster:

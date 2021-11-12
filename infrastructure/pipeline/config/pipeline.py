@@ -24,7 +24,6 @@ class PipelineConfig:
 
         config = self._config['GlobalConfig'].clone()
         config['Environment'] = environment_config
-        config['StackSwitches'] = self._config['StackSwitches'].clone()
         if config_overrides:
             config.merge(config_overrides, overwrite=True)
 
