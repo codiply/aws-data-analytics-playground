@@ -33,9 +33,9 @@ Environments:
 GlobalConfig:
   StackSwitches:
     Base: true
-    Common: true
+    Common: false
     DataWarehouse: false
-    Etl: true
+    Etl: false
     TweetsToS3: false
   Common:
     XRayEnabled: false
