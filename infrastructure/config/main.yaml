@@ -37,9 +37,12 @@ GlobalConfig:
     DataWarehouse: false
     Etl: true
     RelationalDatabase: true
+    Testing: true
     TweetsToS3: true
   Common:
     XRayEnabled: false
+    TrustedIpRangeSsmParameter: '/data-analytics-playground/trusted-ip-range'
+    KeyName: 'dev.codiply.panos.ireland'
   EcsCluster:
     ContainerInsightsEnabled: true
   Etl:
@@ -64,6 +67,7 @@ GlobalConfig:
     MultiAz: false
   S3Bucket:
     ExpirationDays: 3
+  TestInstance: ~
   Tweets:
     S3PathPrefix: 'tweets'
   TweetsFirehoseProducer:
