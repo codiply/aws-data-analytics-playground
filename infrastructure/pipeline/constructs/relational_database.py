@@ -37,7 +37,7 @@ class RelationalDatabase(cdk.Construct):
             self,
             'database',
             instance_identifier=f"{config.resource_prefix}-database",
-            engine=rds.DatabaseInstanceEngine.postgres(version=rds.AuroraPostgresEngineVersion.VER_13_3),
+            engine=rds.DatabaseInstanceEngine.postgres(version=rds.PostgresEngineVersion.VER_13_4),
             instance_type=ec2.InstanceType.of(
                 instance_class=ec2.InstanceClass.BURSTABLE3,
                 instance_size=ec2.InstanceSize.MICRO),

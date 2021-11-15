@@ -17,7 +17,7 @@ class RelationalDatabaseStack(cdk.Stack):
         relational_database = RelationalDatabase(
             self,
             'redshift-cluster',
-            config.for_sections(['Redshift']),
+            config.for_sections(['RelationalDatabase']),
             vpc=vpc
         )
 
