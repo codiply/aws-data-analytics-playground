@@ -50,5 +50,6 @@ class RelationalDatabase(cdk.Construct):
                     version='1')
             ),
             database_name=relational_database_config['InitialDatabaseName'],
-            removal_policy=cdk.RemovalPolicy.DESTROY
+            removal_policy=cdk.RemovalPolicy.DESTROY,
+            security_groups=[database_sg]
         )
