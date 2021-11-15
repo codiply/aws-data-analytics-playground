@@ -49,5 +49,6 @@ class RelationalDatabase(cdk.Construct):
                     parameter_name=relational_database_config['MasterPasswordSsmParameter'],
                     version='1')
             ),
+            database_name=relational_database_config['InitialDatabaseName'],
             removal_policy=cdk.RemovalPolicy.DESTROY
         )

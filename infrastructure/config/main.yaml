@@ -58,7 +58,8 @@ GlobalConfig:
     IsSingleNode: true
     NumberOfNodes: 2
   RelationalDatabase:
-    MasterUsername: 'admin'
+    InitialDatabaseName: 'playground_db'
+    MasterUsername: 'postgres'
     MasterPasswordSsmParameter: '/data-analytics-playground/relational-database/master-password'
     MultiAz: false
   S3Bucket:
