@@ -23,6 +23,7 @@ setuptools.setup(
         "aws-cdk.aws-glue==1.130.0",
         "aws-cdk.aws-kinesisfirehose-destinations==1.130.0",
         "aws-cdk.aws-lambda-python==1.130.0",
+        "aws-cdk.aws-rds==1.130.0",
         "aws-cdk.aws-redshift==1.130.0",
         "aws-cdk.pipelines==1.130.0",
         "flake8==4.0.1",

@@ -103,3 +103,9 @@ Create the following parameters as secure strings in Parameter Store and store t
 Create the following parameter in Parameter Store as secure string
 
 - `/data-analytics-playground/redshift/master-password`
+
+### Relational Database
+
+Create the following parameter in Parameter Store as secure string
+
+- '/data-analytics-playground/relational-database/master-password'

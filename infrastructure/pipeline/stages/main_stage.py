@@ -5,6 +5,7 @@ from ..stacks.base_stack import BaseStack
 from ..stacks.common_stack import CommonStack
 from ..stacks.data_warehouse_stack import DataWarehouseStack
 from ..stacks.etl_stack import EtlStack
+from ..stacks.relational_database_stack import RelationalDatabaseStack
 from ..stacks.tweets_to_s3_stack import TweetsToS3Stack
 
 
@@ -44,6 +45,14 @@ class MainStage(cdk.Stage):
                 self,
                 f"{config.resource_prefix}-data-warehouse",
                 config=config.for_sections(['Redshift']),
+                vpc=common_stack.vpc
+            )
+
+        if config.stack_enabled('RelationalDatabase'):
+            RelationalDatabaseStack(
+                self,
+                f"{config.resource_prefix}-relational-database",
+                config=config.for_sections(['RelationalDatabase']),
                 vpc=common_stack.vpc
             )
 

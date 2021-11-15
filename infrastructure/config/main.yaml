@@ -33,10 +33,11 @@ Environments:
 GlobalConfig:
   StackSwitches:
     Base: true
-    Common: false
+    Common: true
     DataWarehouse: false
-    Etl: false
-    TweetsToS3: false
+    Etl: true
+    RelationalDatabase: true
+    TweetsToS3: true
   Common:
     XRayEnabled: false
   EcsCluster:
@@ -56,6 +57,10 @@ GlobalConfig:
     DefaultDatabaseName: 'playground_db'
     IsSingleNode: true
     NumberOfNodes: 2
+  RelationalDatabase:
+    MasterUsername: 'admin'
+    MasterPasswordSsmParameter: '/data-analytics-playground/relational-database/master-password'
+    MultiAz: false
   S3Bucket:
     ExpirationDays: 3
   Tweets:

@@ -2,10 +2,10 @@ from aws_cdk import core as cdk
 from aws_cdk import aws_ec2 as ec2
 
 from ..config.environment import EnvironmentConfig
-from ..constructs.redshift_cluster import RedshiftCluster
+from ..constructs.relational_database import RelationalDatabase
 
 
-class DataWarehouseStack(cdk.Stack):
+class RelationalDatabaseStack(cdk.Stack):
     def __init__(self,
                  scope: cdk.Construct,
                  id: str,
@@ -14,11 +14,11 @@ class DataWarehouseStack(cdk.Stack):
                  **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
-        redshift_cluster = RedshiftCluster(
+        relational_database = RelationalDatabase(
             self,
             'redshift-cluster',
             config.for_sections(['Redshift']),
             vpc=vpc
         )
 
-        self.redshift_client_sg = redshift_cluster.client_sg
+        self.database_client_sg = relational_database.client_sg
