@@ -23,6 +23,7 @@ class BaseStack(cdk.Stack):
         self.s3_bucket = s3.Bucket(
             self,
             's3-bucket',
+            block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
             bucket_name=ResourceNames.bucket(self._config),
             removal_policy=cdk.RemovalPolicy.DESTROY,
             auto_delete_objects=True,
