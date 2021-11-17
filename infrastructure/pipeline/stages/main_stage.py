@@ -43,6 +43,14 @@ class MainStage(cdk.Stage):
                 s3_bucket=base_stack.s3_bucket,
                 ecs_cluster=common_stack.ecs_cluster)
 
+        if config.stack_enabled('Etl'):
+            EtlStack(
+                self,
+                f"{config.resource_prefix}-etl",
+                config=config.for_sections(['Etl', 'Tweets']),
+                glue_role=base_stack.glue_role
+            )
+
         data_warehouse_stack: typing.Optional[DataWarehouseStack] = None
         if config.stack_enabled('DataWarehouse'):
             data_warehouse_stack = DataWarehouseStack(
@@ -59,14 +67,6 @@ class MainStage(cdk.Stage):
                 f"{config.resource_prefix}-relational-database",
                 config=config.for_sections(['RelationalDatabase']),
                 vpc=common_stack.vpc
-            )
-
-        if config.stack_enabled('Etl'):
-            EtlStack(
-                self,
-                f"{config.resource_prefix}-etl",
-                config=config.for_sections(['Etl', 'Tweets']),
-                glue_role=base_stack.glue_role
             )
 
         if config.stack_enabled('Testing'):

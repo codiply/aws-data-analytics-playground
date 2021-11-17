@@ -29,6 +29,7 @@ class EtlStack(cdk.Stack):
             self,
             'raw-data-glue-crawler',
             name=f"{config.resource_prefix}-tweets-raw-data-crawler",
+            table_prefix="tweets_",
             targets=glue.CfnCrawler.TargetsProperty(
                 s3_targets=[
                     glue.CfnCrawler.S3TargetProperty(

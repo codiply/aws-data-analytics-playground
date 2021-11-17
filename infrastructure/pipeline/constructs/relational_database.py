@@ -16,24 +16,36 @@ class RelationalDatabase(cdk.Construct):
 
         relational_database_config = config.section('RelationalDatabase')
 
-        database_sg = ec2.SecurityGroup(
+        self.database_sg = ec2.SecurityGroup(
             self,
             'database-security-group',
             security_group_name=f"{config.resource_prefix}-database",
             vpc=vpc
         )
+        self.database_sg.add_ingress_rule(
+            peer=self.database_sg,
+            connection=ec2.Port.all_tcp(),
+            description="Allow all traffic from the security group itself"
+        )
+
         self.client_sg = ec2.SecurityGroup(
             self,
             'database-client-security-group',
             security_group_name=f"{config.resource_prefix}-database-client",
             vpc=vpc
         )
-        database_sg.add_ingress_rule(
+        self.database_sg.add_ingress_rule(
             peer=self.client_sg,
             connection=ec2.Port.tcp(Ports.POSTGRES),
             description="Allow Postgres traffic from client security group"
         )
-        rds.DatabaseInstance(
+
+        database_name: str = relational_database_config['InitialDatabaseName']
+        username: str = relational_database_config['MasterUsername']
+        password_secret = cdk.SecretValue.ssm_secure(
+                    parameter_name=relational_database_config['MasterPasswordSsmParameter'],
+                    version='1')
+        instance = rds.DatabaseInstance(
             self,
             'database',
             instance_identifier=f"{config.resource_prefix}-database",
@@ -44,12 +56,18 @@ class RelationalDatabase(cdk.Construct):
             vpc=vpc,
             multi_az=relational_database_config.get_bool('MultiAz'),
             credentials=rds.Credentials.from_password(
-                username=relational_database_config['MasterUsername'],
-                password=cdk.SecretValue.ssm_secure(
-                    parameter_name=relational_database_config['MasterPasswordSsmParameter'],
-                    version='1')
+                username=username,
+                password=password_secret
             ),
-            database_name=relational_database_config['InitialDatabaseName'],
+            database_name=database_name,
             removal_policy=cdk.RemovalPolicy.DESTROY,
-            security_groups=[database_sg]
+            security_groups=[self.database_sg]
         )
+
+        self.jdbc_url = cdk.Fn.join("",
+                                    [
+                                        "jdbc:postgresql://",
+                                        instance.instance_endpoint.hostname,
+                                        f":{Ports.POSTGRES}/{database_name}"
+                                    ])
+        self.username = username
