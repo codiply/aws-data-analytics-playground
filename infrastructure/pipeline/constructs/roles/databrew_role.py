@@ -34,7 +34,10 @@ class DataBrewRole(cdk.Construct):
             short_name='databrew',
             full_name='AWS Glue DataBrew',
             service_principal=ServicePrincipal.DATABREW,
-            policy_statements=policy_statements
+            policy_statements=policy_statements,
+            aws_managed_policy_names=[
+                'service-role/AWSGlueDataBrewServiceRole'
+            ]
         )
 
         self.role = service_iam_role.role
