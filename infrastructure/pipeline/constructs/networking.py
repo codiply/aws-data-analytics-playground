@@ -39,3 +39,17 @@ class Networking(cdk.Construct):
         cdk.Tags.of(vpc).add('Name', f"{config.resource_prefix}-vpc")
 
         self.vpc = vpc
+
+        ec2.GatewayVpcEndpoint(
+            self,
+            's3-vpc-endpoint',
+            vpc=vpc,
+            service=ec2.GatewayVpcEndpointAwsService.S3
+        )
+
+        ec2.InterfaceVpcEndpoint(
+            self,
+            'rds-vpc-endpoint',
+            vpc=vpc,
+            service=ec2.InterfaceVpcEndpointAwsService.RDS
+        )
