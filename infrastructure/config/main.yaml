@@ -36,8 +36,8 @@ GlobalConfig:
     Common: true
     DataWarehouse: false
     Etl: true
-    RelationalDatabase: true
-    Testing: true
+    RelationalDatabase: false
+    Testing: false
     TweetsToS3: true
   Common:
     XRayEnabled: false
