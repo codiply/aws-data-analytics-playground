@@ -15,12 +15,30 @@ class GlueNotebookRole(cdk.Construct):
             iam.PolicyStatement(
                 effect=iam.Effect.ALLOW,
                 actions=["s3:ListBucket"],
-                resources=[f"arn:aws:s3:::aws-glue-jes-prod-{cdk.Aws.REGION}-assets"],
+                resources=[
+                    cdk.Fn.join(
+                        "-",
+                        [
+                            "arn:aws:s3:::aws-glue-jes-prod",
+                            cdk.Aws.REGION,
+                            "assets",
+                        ],
+                    )
+                ],
             ),
             iam.PolicyStatement(
                 effect=iam.Effect.ALLOW,
                 actions=["s3:GetObject"],
-                resources=[f"arn:aws:s3:::aws-glue-jes-prod-{cdk.Aws.REGION}-assets*"],
+                resources=[
+                    cdk.Fn.join(
+                        "-",
+                        [
+                            "arn:aws:s3:::aws-glue-jes-prod",
+                            cdk.Aws.REGION,
+                            "assets",
+                        ],
+                    )
+                ],
             ),
             iam.PolicyStatement(
                 effect=iam.Effect.ALLOW,
@@ -31,9 +49,24 @@ class GlueNotebookRole(cdk.Construct):
                     "logs:CreateLogGroup",
                 ],
                 resources=[
-                    f"arn:aws:logs:{cdk.Aws.REGION}:{cdk.Aws.ACCOUNT_ID}:log-group:/aws/sagemaker/*",
-                    f"arn:aws:logs:{cdk.Aws.REGION}:{cdk.Aws.ACCOUNT_ID}:"
-                    "log-group:/aws/sagemaker/*:log-stream:aws-glue-*",
+                    cdk.Fn.join(
+                        ":",
+                        [
+                            "arn:aws:logs",
+                            cdk.Aws.REGION,
+                            cdk.Aws.ACCOUNT_ID,
+                            "log-group:/aws/sagemaker/*",
+                        ],
+                    ),
+                    cdk.Fn.join(
+                        ":",
+                        [
+                            "arn:aws:logs",
+                            cdk.Aws.REGION,
+                            cdk.Aws.ACCOUNT_ID,
+                            "log-group:/aws/sagemaker/*:log-stream:aws-glue-*",
+                        ],
+                    ),
                 ],
             ),
             iam.PolicyStatement(
@@ -44,14 +77,30 @@ class GlueNotebookRole(cdk.Construct):
                     "glue:GetDevEndpoints",
                 ],
                 resources=[
-                    "arn:aws:glue:{cdk.Aws.REGION}:{cdk.Aws.ACCOUNT_ID}:devEndpoint/*"
+                    cdk.Fn.join(
+                        ":",
+                        [
+                            "arn:aws:glue",
+                            cdk.Aws.REGION,
+                            cdk.Aws.ACCOUNT_ID,
+                            "devEndpoint/*",
+                        ],
+                    )
                 ],
             ),
             iam.PolicyStatement(
                 effect=iam.Effect.ALLOW,
                 actions=["sagemaker:ListTags"],
                 resources=[
-                    "arn:aws:sagemaker:{cdk.Aws.REGION}:{cdk.Aws.ACCOUNT_ID}:notebook-instance/*"
+                    cdk.Fn.join(
+                        ":",
+                        [
+                            "arn:aws:sagemaker",
+                            cdk.Aws.REGION,
+                            cdk.Aws.ACCOUNT_ID,
+                            "notebook-instance/*",
+                        ],
+                    )
                 ],
             ),
             iam.PolicyStatement(
