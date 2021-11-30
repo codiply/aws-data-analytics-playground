@@ -8,36 +8,29 @@ from ...constants.service_principal import ServicePrincipal
 
 
 class DataBrewRole(cdk.Construct):
-    def __init__(self,
-                 scope: cdk.Construct,
-                 id: str,
-                 config: EnvironmentConfig):
+    def __init__(self, scope: cdk.Construct, id: str, config: EnvironmentConfig):
         super().__init__(scope, id)
 
         policy_statements = [
             iam.PolicyStatement(
                 effect=iam.Effect.ALLOW,
-                actions=[
-                    's3:*'
-                ],
+                actions=["s3:*"],
                 resources=[
                     ResourceArn.bucket(config),
-                    f"{ResourceArn.bucket(config)}/*"
-                ]
+                    f"{ResourceArn.bucket(config)}/*",
+                ],
             )
         ]
 
         service_iam_role = ServiceIamRole(
             self,
-            'service-iam-role',
+            "service-iam-role",
             config.for_sections([]),
-            short_name='databrew',
-            full_name='AWS Glue DataBrew',
+            short_name="databrew",
+            full_name="AWS Glue DataBrew",
             service_principal=ServicePrincipal.DATABREW,
             policy_statements=policy_statements,
-            aws_managed_policy_names=[
-                'service-role/AWSGlueDataBrewServiceRole'
-            ]
+            aws_managed_policy_names=["service-role/AWSGlueDataBrewServiceRole"],
         )
 
         self.role = service_iam_role.role

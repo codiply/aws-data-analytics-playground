@@ -10,7 +10,7 @@ from ...constants.service_principal import ServicePrincipal
 class GlueNotebookRole(cdk.Construct):
     def __init__(self, scope: cdk.Construct, id: str, config: EnvironmentConfig):
         super().__init__(scope, id)
-        
+
         policy_statements = [
             iam.PolicyStatement(
                 effect=iam.Effect.ALLOW,
@@ -32,7 +32,8 @@ class GlueNotebookRole(cdk.Construct):
                 ],
                 resources=[
                     f"arn:aws:logs:{cdk.Aws.REGION}:{cdk.Aws.ACCOUNT_ID}:log-group:/aws/sagemaker/*",
-                    f"arn:aws:logs:{cdk.Aws.REGION}:{cdk.Aws.ACCOUNT_ID}:log-group:/aws/sagemaker/*:log-stream:aws-glue-*",
+                    f"arn:aws:logs:{cdk.Aws.REGION}:{cdk.Aws.ACCOUNT_ID}:"
+                    "log-group:/aws/sagemaker/*:log-stream:aws-glue-*",
                 ],
             ),
             iam.PolicyStatement(
@@ -42,7 +43,9 @@ class GlueNotebookRole(cdk.Construct):
                     "glue:GetDevEndpoint",
                     "glue:GetDevEndpoints",
                 ],
-                resources=["arn:aws:glue:{cdk.Aws.REGION}:{cdk.Aws.ACCOUNT_ID}:devEndpoint/*"],
+                resources=[
+                    "arn:aws:glue:{cdk.Aws.REGION}:{cdk.Aws.ACCOUNT_ID}:devEndpoint/*"
+                ],
             ),
             iam.PolicyStatement(
                 effect=iam.Effect.ALLOW,
@@ -68,7 +71,7 @@ class GlueNotebookRole(cdk.Construct):
             short_name="",
             full_name="AWS Glue Notebook",
             service_principal=ServicePrincipal.SAGEMAKER,
-            policy_statements=policy_statements
+            policy_statements=policy_statements,
         )
 
         self.role = service_iam_role.role

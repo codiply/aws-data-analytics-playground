@@ -8,23 +8,23 @@ import tweepy
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
-ssm_client = boto3.client('ssm')
+ssm_client = boto3.client("ssm")
 
 consumer_key = ssm_client.get_parameter(
-    Name=os.getenv('TWITTER_API_CONSUMER_KEY_SSM_PARAMETER'),
-    WithDecryption=True)['Parameter']['Value']
+    Name=os.getenv("TWITTER_API_CONSUMER_KEY_SSM_PARAMETER"), WithDecryption=True
+)["Parameter"]["Value"]
 consumer_secret = ssm_client.get_parameter(
-    Name=os.getenv('TWITTER_API_CONSUMER_SECRET_SSM_PARAMETER'),
-    WithDecryption=True)['Parameter']['Value']
+    Name=os.getenv("TWITTER_API_CONSUMER_SECRET_SSM_PARAMETER"), WithDecryption=True
+)["Parameter"]["Value"]
 access_token = ssm_client.get_parameter(
-    Name=os.getenv('TWITTER_API_ACCESS_TOKEN_SSM_PARAMETER'),
-    WithDecryption=True)['Parameter']['Value']
+    Name=os.getenv("TWITTER_API_ACCESS_TOKEN_SSM_PARAMETER"), WithDecryption=True
+)["Parameter"]["Value"]
 access_token_secret = ssm_client.get_parameter(
-    Name=os.getenv('TWITTER_API_ACCESS_TOKEN_SECRET_SSM_PARAMETER'),
-    WithDecryption=True)['Parameter']['Value']
+    Name=os.getenv("TWITTER_API_ACCESS_TOKEN_SECRET_SSM_PARAMETER"), WithDecryption=True
+)["Parameter"]["Value"]
 
-tweets_filter = os.getenv('TWEETS_FILTER')
-delivery_stream_name = os.getenv('DELIVERY_STREAM_NAME')
+tweets_filter = os.getenv("TWEETS_FILTER")
+delivery_stream_name = os.getenv("DELIVERY_STREAM_NAME")
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -38,9 +38,7 @@ class TweetsProducer(tweepy.StreamListener):
         tweet = json.loads(data)
         self.firehose_client.put_record(
             DeliveryStreamName=delivery_stream_name,
-            Record={
-                'Data': json.dumps(tweet).encode('utf-8')
-            }
+            Record={"Data": json.dumps(tweet).encode("utf-8")},
         )
         return True
 
@@ -49,6 +47,6 @@ class TweetsProducer(tweepy.StreamListener):
 
 
 if __name__ == "__main__":
-    tweets_producer = TweetsProducer(boto3.client('firehose'))
+    tweets_producer = TweetsProducer(boto3.client("firehose"))
     stream = tweepy.Stream(auth=auth, listener=tweets_producer)
     stream.filter(track=[tweets_filter])
