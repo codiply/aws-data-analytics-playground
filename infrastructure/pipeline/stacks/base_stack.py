@@ -6,6 +6,7 @@ from ..config.environment import EnvironmentConfig
 from ..constants.resource_names import ResourceNames
 from ..constructs.roles.databrew_role import DataBrewRole
 from ..constructs.roles.glue_role import GlueRole
+from ..constructs.roles.glue_notebook_role import GlueNotebookRole
 
 
 class BaseStack(cdk.Stack):
@@ -43,3 +44,9 @@ class BaseStack(cdk.Stack):
             'glue-role',
             self._config.for_sections([])
         ).role
+
+        self.glue_notebook_role: iam.Role = GlueNotebookRole(
+            self,
+            'glue-notebook-role',
+            self._config.for_sections([])
+        )
