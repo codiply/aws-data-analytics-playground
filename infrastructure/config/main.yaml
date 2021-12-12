@@ -33,12 +33,12 @@ Environments:
 GlobalConfig:
   StackSwitches:
     Base: true
-    Common: false
+    Common: true
     DataWarehouse: false
-    Etl: false
+    Etl: true
     RelationalDatabase: false
     Testing: false
-    TweetsToS3: false
+    TweetsToS3: true
   Common:
     XRayEnabled: false
     TrustedIpRangeSsmParameter: '/data-analytics-playground/trusted-ip-range'
